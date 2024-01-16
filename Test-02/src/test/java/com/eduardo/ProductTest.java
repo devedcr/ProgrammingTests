@@ -10,12 +10,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ProductTest {
-    private Product product;
-    private List<Item> data;
+    private Problem product;
 
     @BeforeEach
     public void init() {
-        product = new Product();
+        product = Problem.builder()
+                .strategyProduct(new StrategyProduct())
+                .build();
     }
 
     @Test
