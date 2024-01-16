@@ -25,6 +25,8 @@ public class Product implements IProduct {
     public void updateQuality() {
 
         for (Item item : items) {
+            if (item.name.equalsIgnoreCase(SULFURUS))
+                continue;
 
             if (item.name.equalsIgnoreCase(AGE_BRIE)) {
                 incrementQuality(item, 1);
@@ -34,21 +36,20 @@ public class Product implements IProduct {
                     incrementQuality(item, 1);
                 if (item.sellIn < 6)
                     incrementQuality(item, 1);
-            } else if (!item.name.equalsIgnoreCase(SULFURUS)) { //item normal
+            } else { //item normal
                 decrementQuality(item, 1);
                 if (item.name.equalsIgnoreCase(CONJURE))
                     decrementQuality(item, 1);
             }
 
-            if (!item.name.equalsIgnoreCase(SULFURUS))
-                item.sellIn -= 1;
+            item.sellIn -= 1;
 
             if (item.sellIn < 0) {
                 if (item.name.equalsIgnoreCase(AGE_BRIE)) {
                     incrementQuality(item, 1);
                 } else if (item.name.equalsIgnoreCase(BACKSTAGE)) {
                     item.quality = 0;
-                } else if (!item.name.equalsIgnoreCase(SULFURUS)) { //item normal
+                } else { //item normal
                     decrementQuality(item, 1);
                     if (item.name.equalsIgnoreCase(CONJURE))
                         decrementQuality(item, 1);
