@@ -1,73 +1,60 @@
 package com.eduardo;
 
-import java.util.LinkedList;
 import java.util.List;
 
-public class Product {
+public class Product implements IProduct {
+    public static final String AGE_BRIE = "Aged Brie";
+    public static final String BACKSTAGE = "Backstage passes to a TAFKAL80ETC concert";
+    public static final String SULFURUS = "Sulfuras, Hand of Ragnaros";
+    public static final String CONJURE = "Conjured Mana Cake";
     public List<Item> items;
 
     public Product() {
     }
 
-    public void updateQuality() {
-        for (var i = 0; i < items.size(); i++) {
-            if (!"Aged Brie".equalsIgnoreCase(items.get(i).name) && !"Backstage passes to a TAFKAL80ETC concert".equalsIgnoreCase(items.get(i).name)) {
-                if (items.get(i).quality > 0) {
-                    if (!"Sulfuras, Hand of Ragnaros".equalsIgnoreCase(items.get(i).name)) {
-                        items.get(i).quality = items.get(i).quality - 1; //Item normal
-                    }
-                }
-            } else {
-                if (items.get(i).quality < 50) {
-                    items.get(i).quality = items.get(i).quality + 1;
-                    if ("Backstage passes to a TAFKAL80ETC concert".equalsIgnoreCase(items.get(i).name)) { //Validacion Type Backtasge
-                        if (items.get(i).sellIn < 11) {
-                            if (items.get(i).quality < 50) {
-                                items.get(i).quality = items.get(i).quality + 1;
-                            }
-                        }
-                        if (items.get(i).sellIn < 6) {
-                            if (items.get(i).quality < 50) {
-                                items.get(i).quality = items.get(i).quality + 1;
-                            }
-                        }
-                    }
-                }
-            }
-            if (!"Sulfuras, Hand of Ragnaros".equalsIgnoreCase(items.get(i).name)) { //REVISAR validar selling>0
-                items.get(i).sellIn = items.get(i).sellIn - 1;
-            }
-            if (items.get(i).sellIn < 0) {
-                if (!"Aged Brie".equals(items.get(i).name)) {
-                    if (!"Backstage passes to a TAFKAL80ETC concert".equalsIgnoreCase(items.get(i).name)) {
-                        if (items.get(i).quality > 0) {
-                            if (!"Sulfuras, Hand of Ragnaros".equalsIgnoreCase(items.get(i).name)) { //Item normal o Conjured
-                                items.get(i).quality = items.get(i).quality - 1;
-                            }
-                        }
-                    } else {
-                        items.get(i).quality = items.get(i).quality - items.get(i).quality; //anulando calidad
-                    }
-                } else {
-                    if (items.get(i).quality < 50) {
-                        items.get(i).quality = items.get(i).quality + 1;
-                    }
-                }
-            }
-           /*ADD*/
-            if ("Conjured Mana Cake".equalsIgnoreCase(items.get(i).name)) {
-                if (items.get(i).quality > 0) {
-                    items.get(i).quality = items.get(i).quality - 1;
-                    if (items.get(i).sellIn < 0 && items.get(i).quality > 0) {
-                        items.get(i).quality = items.get(i).quality - 1;
-                    }
-                }
-            }
-        }
-
+    public void incrementQuality(Item item, int increment) {
+        if ((increment + item.quality) <= 50)
+            item.quality += increment;
     }
 
-    public static void main(String[] args) {
-        var product = new Product();
+    public void decrementQuality(Item item, int decrement) {
+        if ((item.quality - decrement) >= 0)
+            item.quality -= decrement;
+    }
+
+    public void updateQuality() {
+
+        for (Item item : items) {
+
+            if (item.name.equalsIgnoreCase(AGE_BRIE)) {
+                incrementQuality(item, 1);
+            } else if (item.name.equalsIgnoreCase(BACKSTAGE)) {
+                incrementQuality(item, 1);
+                if (item.sellIn < 11)
+                    incrementQuality(item, 1);
+                if (item.sellIn < 6)
+                    incrementQuality(item, 1);
+            } else if (!item.name.equalsIgnoreCase(SULFURUS)) { //item normal
+                decrementQuality(item, 1);
+                if (item.name.equalsIgnoreCase(CONJURE))
+                    decrementQuality(item, 1);
+            }
+
+            if (!item.name.equalsIgnoreCase(SULFURUS))
+                item.sellIn -= 1;
+
+            if (item.sellIn < 0) {
+                if (item.name.equalsIgnoreCase(AGE_BRIE)) {
+                    incrementQuality(item, 1);
+                } else if (item.name.equalsIgnoreCase(BACKSTAGE)) {
+                    item.quality = 0;
+                } else if (!item.name.equalsIgnoreCase(SULFURUS)) { //item normal
+                    decrementQuality(item, 1);
+                    if (item.name.equalsIgnoreCase(CONJURE))
+                        decrementQuality(item, 1);
+                }
+            }
+
+        }
     }
 }
