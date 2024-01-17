@@ -2,12 +2,13 @@ package com.eduardo;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.eduardo.factory.ProductFactory;
+import com.eduardo.strategy.StrategyProduct;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class ProductTest {
     private Problem product;
@@ -16,6 +17,7 @@ public class ProductTest {
     public void init() {
         product = Problem.builder()
                 .strategyProduct(new StrategyProduct())
+                .productFactory(new ProductFactory())
                 .build();
     }
 
@@ -25,17 +27,17 @@ public class ProductTest {
                 new Item("+5 Dexterity Vest Common", 2, 20),
                 new Item("Elixir of the Mongoose Common", 3, 1)
         ));
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(1, product.items.get(0).sellIn);
         assertEquals(2, product.items.get(1).sellIn);
         assertEquals(19, product.items.get(0).quality);
         assertEquals(0, product.items.get(1).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(0, product.items.get(0).sellIn);
         assertEquals(1, product.items.get(1).sellIn);
         assertEquals(18, product.items.get(0).quality);
         assertEquals(0, product.items.get(1).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(-1, product.items.get(0).sellIn);
         assertEquals(0, product.items.get(1).sellIn);
         assertEquals(16, product.items.get(0).quality);
@@ -48,22 +50,22 @@ public class ProductTest {
                 new Item("Aged Brie", 2, 0),
                 new Item("Aged Brie", 10, 49)
         ));
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(1, product.items.get(0).sellIn);
         assertEquals(1, product.items.get(0).quality);
         assertEquals(9, product.items.get(1).sellIn);
         assertEquals(50, product.items.get(1).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(0, product.items.get(0).sellIn);
         assertEquals(2, product.items.get(0).quality);
         assertEquals(8, product.items.get(1).sellIn);
         assertEquals(50, product.items.get(1).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(-1, product.items.get(0).sellIn);
         assertEquals(4, product.items.get(0).quality);
         assertEquals(7, product.items.get(1).sellIn);
         assertEquals(50, product.items.get(1).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(-2, product.items.get(0).sellIn);
         assertEquals(6, product.items.get(0).quality);
         assertEquals(6, product.items.get(1).sellIn);
@@ -77,12 +79,12 @@ public class ProductTest {
                 new Item("Sulfuras, Hand of Ragnaros", 0, 80),
                 new Item("Sulfuras, Hand of Ragnaros", 10, 80)
         ));
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(0, product.items.get(0).sellIn);
         assertEquals(80, product.items.get(0).quality);
         assertEquals(10, product.items.get(1).sellIn);
         assertEquals(80, product.items.get(1).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(0, product.items.get(0).sellIn);
         assertEquals(80, product.items.get(0).quality);
         assertEquals(10, product.items.get(1).sellIn);
@@ -96,24 +98,24 @@ public class ProductTest {
                 new Item("Backstage passes to a TAFKAL80ETC concert", 6, 10),
                 new Item("Backstage passes to a TAFKAL80ETC concert", 2, 46)
         ));
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(10, product.items.get(0).sellIn);
         assertEquals(21, product.items.get(0).quality);
         assertEquals(5, product.items.get(1).sellIn);
         assertEquals(12, product.items.get(1).quality);
         assertEquals(1, product.items.get(2).sellIn);
         assertEquals(49, product.items.get(2).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(9, product.items.get(0).sellIn);
         assertEquals(23, product.items.get(0).quality);
         assertEquals(4, product.items.get(1).sellIn);
         assertEquals(15, product.items.get(1).quality);
         assertEquals(0, product.items.get(2).sellIn);
         assertEquals(50, product.items.get(2).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(-1, product.items.get(2).sellIn);
         assertEquals(0, product.items.get(2).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(-2, product.items.get(2).sellIn);
         assertEquals(0, product.items.get(2).quality);
     }
@@ -123,19 +125,19 @@ public class ProductTest {
         product.items = new ArrayList<>(Arrays.asList(
                 new Item("Conjured Mana Cake", 2, 10)
         ));
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(1, product.items.get(0).sellIn);
         assertEquals(8, product.items.get(0).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(0, product.items.get(0).sellIn);
         assertEquals(6, product.items.get(0).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(-1, product.items.get(0).sellIn);
         assertEquals(2, product.items.get(0).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(-2, product.items.get(0).sellIn);
         assertEquals(0, product.items.get(0).quality);
-        product.updateQuality();
+        product.updateQualityAllProduct();
         assertEquals(-3, product.items.get(0).sellIn);
         assertEquals(0, product.items.get(0).quality);
     }

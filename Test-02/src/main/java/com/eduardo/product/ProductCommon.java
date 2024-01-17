@@ -1,4 +1,6 @@
-package com.eduardo;
+package com.eduardo.product;
+
+import com.eduardo.Item;
 
 public abstract class ProductCommon {
     protected void incrementQuality(Item item, int increment) {

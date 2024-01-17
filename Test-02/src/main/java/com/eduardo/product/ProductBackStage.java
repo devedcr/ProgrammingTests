@@ -1,5 +1,9 @@
-package com.eduardo;
+package com.eduardo.product;
 
+import com.eduardo.Item;
+import lombok.Builder;
+
+@Builder
 public class ProductBackStage extends ProductCommon implements IProduct {
     @Override
     public void updateQuality(Item item) {
